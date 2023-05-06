@@ -16,8 +16,8 @@ using namespace std;
 #define MOD 1e9+7
 
 int val[9] = {8, 7, 6, 5, 4, 3, 2, 1, 0};
-bool poker[5][14]; // 黑桃、愛心、菱形、梅花 from 1 to 4 of index 1
-int val_poker[5][14];
+bool poker[5][15]; // 黑桃、愛心、菱形、梅花 from 1 to 4 of index 1
+int val_poker[5][15];
 map<string, int> digits, colors;
 
 void make_val_of_poker(){
@@ -188,8 +188,8 @@ bool Three_of_kind(){
 
     for(int i=1;i<=13;i++){
         int cnt = 0;
-        for(int k=1;i<=4;k++){
-            cnt += poker[k][i];
+        for(int k=1;k<=4;k++){
+            if(poker[k][i]) cnt++;
         }
         if(cnt == 3) return 1; 
     }
@@ -203,7 +203,7 @@ bool Two_pair(){
     for(int i=1;i<=13;i++){
         cnt1 = 0;
         for(int k=1;k<=4;k++){
-            cnt1 += poker[k][i];
+            if(poker[k][i]) cnt1++;
         }
         if(cnt1 == 2) cnt2++;
     }
@@ -218,7 +218,7 @@ bool One_pair(){
     for(int i=1;i<=13;i++){
         cnt = 0;
         for(int k=1;k<=4;k++){
-            cnt += poker[k][i];
+            if(poker[k][i]) cnt++;
         }
         if(cnt == 2) return 1;
     }
@@ -247,6 +247,7 @@ void solve(string s1, string s2){
 
     player1.ff = translate(s1);
     player1.ss = find_mode();
+
     memset(poker, false, sizeof(poker));
 
     player2.ff = translate(s2);
@@ -268,25 +269,25 @@ void solve(string s1, string s2){
 }
 
 signed main(){
-    fastIO
+    //fastIO
     prev_translate();
     make_val_of_poker();
 
     string s1, s2;
     int t;
     cin >> t;
+
     cin.ignore();
-
-    //while (getc(stdin) != '\n');
-
     while(t--){
         memset(poker, false, sizeof(poker));
         getchar();
         getline(cin, s1);
         getchar();
         getline(cin, s2);
+        //cout << "s1 & s2:\n" << s1 << "\n" << s2 << "\n\n";
         solve(s1, s2);
     }
     return 0;
 }
+
 
